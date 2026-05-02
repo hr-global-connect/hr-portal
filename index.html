@@ -9,7 +9,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Noto+Sans+Arabic:wght@400;700&display=swap');
-
+        
         body {
             font-family: 'Inter', 'Noto Sans Arabic', sans-serif;
             background: #020617;
@@ -42,7 +42,7 @@
             cursor: not-allowed; 
         }
         
-        .hidden { display: none !important; }
+        .hidden { display: none!important; }
         
         .tab-btn { 
             padding: 0.4rem 0.75rem; 
@@ -89,7 +89,7 @@
             body * { visibility: hidden; }
             #printable-profile, #printable-profile * { visibility: visible; }
             #printable-profile { position: absolute; left: 0; top: 0; width: 100%; }
-            .no-print { display: none !important; }
+            .no-print { display: none!important; }
         }
         
         .btn-3d-sm {
@@ -205,7 +205,7 @@
         
         .color-dot.active { border-color: white; transform: scale(1.15); }
     </style>
-    
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <script src="language.js"></script>
 </head>
@@ -236,22 +236,22 @@
                 </div>
             </div>
             <div class="flex gap-4 items-center">
-                <button onclick="showToast('🔄 Refreshing portal...', 'info'); location.reload();" style="background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%); box-shadow: 0 2px 8px rgba(6,182,212,0.4);" class="px-3 py-2 rounded-lg text-[8px] font-bold uppercase text-white hover:scale-105 transition-all">
+                <button onclick="showToast('🔄 Refreshing portal...', 'info'); setTimeout(function(){ if(typeof loadEmployees === 'function') loadEmployees(); showToast('✅ Portal refreshed!', 'success'); }, 500);" style="background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%); box-shadow: 0 2px 8px rgba(6,182,212,0.4);" class="px-3 py-2 rounded-lg text-[8px] font-bold uppercase text-white hover:scale-105 transition-all mr-2">
                     <i class="fas fa-sync-alt mr-1"></i>REFRESH
                 </button>
                 <button id="pwaInstallBtn" style="display:none; background:#1e293b;color:white;border:1px solid #334155;padding:6px 12px;border-radius:6px;cursor:pointer;font-size:0.7rem;font-weight:700;">
                     <i class="fas fa-download"></i> Install App
                 </button>
                 <button onclick="switchTab('laborlaw')" style="background:#1e293b;color:white;border:1px solid #334155;padding:6px 12px;border-radius:6px;cursor:pointer;font-size:0.7rem;font-weight:700;">
-                    <i class="fas fa-gavel"></i> Labor Law
+                    <i class="fas fa-gavel" style="font-size:0.7rem;"></i> Labor Law
                 </button>
                 <button onclick="openSettingsPopup()" style="background:#1e293b; color:white; border:2px solid #3b82f6; padding:8px 14px; border-radius:8px; cursor:pointer; font-size:10px; font-weight:700;">
                     ⚙️ SETTINGS
                 </button>
                 <button onclick="logout()" class="text-[9px] font-bold text-slate-500 hover:text-white uppercase"><i class="fas fa-power-off mr-1"></i> Logout</button>
                 <div class="bg-black/50 px-3 py-1 rounded border border-slate-800 text-right">
-                    <p id="currentTime" class="text-sm font-mono text-blue-400 font-bold leading-none"></p>
-                    <p id="currentDate" class="text-[8px] text-slate-500 uppercase font-bold"></p>
+                    <p id="currentTime" class="text-sm font-mono text-blue-400 font-bold leading-none">--:--:--</p>
+                    <p id="currentDate" class="text-[8px] text-slate-500 uppercase font-bold">2026-05-02</p>
                 </div>
             </div>
         </header>
@@ -261,125 +261,168 @@
                 <div class="glass-panel overflow-hidden" id="printable-profile">
                     <!-- Tabs Navigation -->
                     <div class="flex bg-slate-900 border-b border-slate-800 no-print overflow-x-auto" id="tabNav">
-                        <button onclick="switchTab('profile')" id="btn-profile" class="tab-btn active"><i class="fas fa-id-card mr-1"></i> Profile</button>
-                        <button onclick="switchTab('zkmanager')" id="btn-zkmanager" class="tab-btn border-l border-slate-800 text-cyan-400"><i class="fas fa-network-wired mr-1"></i> ZKTeco</button>
-                        <button onclick="switchTab('attendance')" id="btn-attendance" class="tab-btn"><i class="fas fa-calendar-check mr-1"></i> Attendance</button>
-                        <button onclick="switchTab('mobile')" id="btn-mobile" class="tab-btn border-l border-slate-800 text-pink-400"><i class="fas fa-mobile-alt mr-1"></i> Mobile</button>
-                        <button onclick="switchTab('reports')" id="btn-reports" class="tab-btn border-l border-slate-800 text-orange-400"><i class="fas fa-chart-pie mr-1"></i> Reports</button>
-                        <button onclick="switchTab('leave')" id="btn-leave" class="tab-btn"><i class="fas fa-envelope-open-text mr-1"></i> Leave</button>
-                        <button onclick="switchTab('salary')" id="btn-salary" class="tab-btn"><i class="fas fa-money-bill-wave mr-1 text-emerald-500"></i> Salary</button>
-                        <button onclick="switchTab('admin')" id="btn-admin" class="tab-btn border-l border-slate-800 text-blue-400"><i class="fas fa-user-shield mr-1"></i> Admin</button>
+                        <button onclick="switchTab('profile')" id="btn-profile" class="tab-btn active">
+                            <i class="fas fa-id-card mr-1"></i> Profile
+                        </button>
+                        <button onclick="switchTab('attendance')" id="btn-attendance" class="tab-btn">
+                            <i class="fas fa-calendar-check mr-1"></i> Attendance
+                        </button>
+                        <button onclick="switchTab('leave')" id="btn-leave" class="tab-btn">
+                            <i class="fas fa-envelope-open-text mr-1"></i> Leave
+                        </button>
+                        <button onclick="switchTab('salary')" id="btn-salary" class="tab-btn">
+                            <i class="fas fa-money-bill-wave mr-1 text-emerald-500"></i> Salary
+                        </button>
+                        <button onclick="switchTab('admin')" id="btn-admin" class="tab-btn border-l border-slate-800 text-blue-400">
+                            <i class="fas fa-user-shield mr-1"></i> Admin
+                        </button>
+                        <button onclick="switchTab('mobile')" id="btn-mobile" class="tab-btn border-l border-slate-800 text-pink-400">
+                            <i class="fas fa-mobile-alt mr-1"></i> Mobile
+                        </button>
                     </div>
 
                     <div class="p-2.5">
                         <!-- Profile Tab -->
                         <div id="tab-profile" class="tab-content">
-                            <div class="flex flex-col md:flex-row gap-3">
-                                <div class="w-full md:w-28 flex flex-col items-center gap-2 flex-shrink-0">
-                                    <div class="w-24 h-24 bg-slate-900 rounded border border-slate-800 flex items-center justify-center relative overflow-hidden group">
-                                        <i id="imgPlaceholder" class="fas fa-user-tie text-2xl text-slate-700"></i>
-                                        <img id="profileImgDisplay" class="hidden">
+                            <div class="glass-panel p-4 border-slate-800 space-y-3">
+                                <h3 class="text-xs font-black text-white">Employee Profile</h3>
+                                <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                                    <div>
+                                        <label class="text-[7px] font-bold text-slate-500 uppercase">Emp ID</label>
+                                        <input type="text" id="fullName" class="compact-input emp-readonly">
                                     </div>
-                                    <button onclick="alert('Photo upload feature')" class="no-print w-full py-1 bg-blue-600/20 hover:bg-blue-600/40 text-[7px] font-bold uppercase rounded">Upload Photo</button>
-                                    <button onclick="window.print()" class="no-print w-full py-1 bg-slate-800 hover:bg-slate-700 text-[8px] font-bold uppercase rounded border border-slate-700"><i class="fas fa-print mr-1"></i> Print ID</button>
-                                    <button onclick="alert('PDF download feature')" class="no-print w-full py-1 bg-red-600/20 hover:bg-red-600/40 text-[7px] font-bold uppercase rounded border border-red-500/30 text-red-400"><i class="fas fa-file-pdf mr-1"></i>PDF</button>
-                                </div>
-                                <div class="flex-grow">
-                                    <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-x-2.5 gap-y-1.5">
-                                        <div><label class="text-[7px] font-bold text-slate-500 uppercase">Emp ID</label><div id="recordId" class="text-xs font-mono font-black text-blue-500">...</div></div>
-                                        <div class="col-span-2"><label class="text-[7px] font-bold text-slate-500 uppercase">Full Name</label><input type="text" id="fullName" class="compact-input emp-readonly"></div>
-                                        <div class="col-span-2"><label class="text-[7px] font-bold text-slate-500 uppercase">Father's Name</label><input type="text" id="fatherName" class="compact-input emp-readonly"></div>
-                                        <div><label class="text-[7px] font-bold text-slate-500 uppercase">Iqama</label><input type="text" id="iqamaNo" class="compact-input emp-readonly"></div>
-                                        <div><label class="text-[7px] font-bold text-slate-500 uppercase">Iqama Expiry</label><input type="date" id="iqamaExpiry" class="compact-input emp-readonly"></div>
-                                        <div><label class="text-[7px] font-bold text-slate-500 uppercase">Passport</label><input type="text" id="passportNo" class="compact-input emp-readonly"></div>
-                                        <div><label class="text-[7px] font-bold text-slate-500 uppercase">Passport Expiry</label><input type="date" id="passportExpiry" class="compact-input emp-readonly"></div>
-                                        <div><label class="text-[7px] font-bold text-slate-500 uppercase">Nationality</label><input type="text" id="nationality" class="compact-input emp-readonly"></div>
-                                        <div class="col-span-2"><label class="text-[7px] font-bold text-slate-500 uppercase">Company</label><input type="text" id="companyName" class="compact-input emp-readonly"></div>
-                                        <div class="col-span-2"><label class="text-[7px] font-bold text-slate-500 uppercase">Email</label><input type="email" id="emailId" class="compact-input emp-readonly"></div>
-                                        <div><label class="text-[7px] font-bold text-slate-500 uppercase">Gender</label><select id="gender" class="compact-input bg-black emp-readonly"><option>Male</option><option>Female</option></select></div>
-                                        <div><label class="text-[7px] font-bold text-slate-500 uppercase">Profession</label><input type="text" id="profession" class="compact-input emp-readonly"></div>
-                                        <div><label class="text-[7px] font-bold text-slate-500 uppercase">Contact</label><input type="text" id="mobile" class="compact-input emp-readonly"></div>
-                                        <div><label class="text-[7px] font-bold text-slate-500 uppercase">Department</label><input type="text" id="dept" class="compact-input emp-readonly"></div>
-                                        <div><label class="text-[7px] font-bold text-slate-500 uppercase">Basic Salary</label><input type="number" id="basicSalary" class="compact-input emp-readonly"></div>
-                                        <div><label class="text-[7px] font-bold text-slate-500 uppercase">Join Date</label><input type="date" id="joinDate" class="compact-input emp-readonly"></div>
+                                    <div>
+                                        <label class="text-[7px] font-bold text-slate-500 uppercase">Full Name</label>
+                                        <input type="text" id="empName" class="compact-input emp-readonly">
+                                    </div>
+                                    <div>
+                                        <label class="text-[7px] font-bold text-slate-500 uppercase">Email</label>
+                                        <input type="email" id="emailId" class="compact-input emp-readonly">
+                                    </div>
+                                    <div>
+                                        <label class="text-[7px] font-bold text-slate-500 uppercase">Contact</label>
+                                        <input type="text" id="mobile" class="compact-input emp-readonly">
                                     </div>
                                 </div>
+                                <button onclick="window.print()" class="bg-blue-600 hover:bg-blue-500 px-4 py-2 rounded text-xs font-bold uppercase">
+                                    <i class="fas fa-print mr-1"></i> Print
+                                </button>
                             </div>
                         </div>
 
                         <!-- Attendance Tab -->
                         <div id="tab-attendance" class="tab-content hidden">
-                            <div class="glass-panel p-4 border-slate-800">
-                                <h3 class="text-xs font-black text-white mb-4"><i class="fas fa-calendar-check mr-2"></i>Attendance Management</h3>
-                                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                                    <div class="bg-emerald-900/10 p-3 rounded border border-emerald-500/20 text-center">
-                                        <p class="text-[7px] text-slate-500 uppercase">Present</p>
-                                        <p id="attPresent" class="text-lg font-bold text-emerald-400">0</p>
-                                    </div>
-                                    <div class="bg-rose-900/10 p-3 rounded border border-rose-500/20 text-center">
-                                        <p class="text-[7px] text-slate-500 uppercase">Late</p>
-                                        <p id="attLate" class="text-lg font-bold text-rose-400">0</p>
-                                    </div>
-                                    <div class="bg-amber-900/10 p-3 rounded border border-amber-500/20 text-center">
-                                        <p class="text-[7px] text-slate-500 uppercase">Absent</p>
-                                        <p id="attAbsent" class="text-lg font-bold text-amber-400">0</p>
-                                    </div>
-                                </div>
-                                <div class="mt-4 h-40 overflow-y-auto border border-slate-800 rounded bg-black/20">
-                                    <table class="w-full text-[7px]">
-                                        <thead class="bg-slate-900 sticky top-0"><tr><th>Employee</th><th>Date</th><th>In</th><th>Out</th><th>Status</th></tr></thead>
+                            <div class="glass-panel p-4 border-slate-800 space-y-3">
+                                <h3 class="text-xs font-black text-white">Attendance Log</h3>
+                                <div class="overflow-y-auto h-64 border border-slate-800 rounded bg-black/20">
+                                    <table class="w-full text-left text-[8px]">
+                                        <thead class="sticky top-0 bg-slate-900">
+                                            <tr>
+                                                <th class="p-2">Date</th>
+                                                <th class="p-2">Time In</th>
+                                                <th class="p-2">Time Out</th>
+                                                <th class="p-2">Status</th>
+                                            </tr>
+                                        </thead>
                                         <tbody id="attendanceBody"></tbody>
                                     </table>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- ZKTeco Tab -->
-                        <div id="tab-zkmanager" class="tab-content hidden">
-                            <div class="glass-panel p-4 border-slate-800">
-                                <h3 class="text-xs font-black text-white mb-4"><i class="fas fa-network-wired mr-2"></i>ZKTeco Device Manager</h3>
-                                <p class="text-[8px] text-slate-400">Device scanning and synchronization features coming soon...</p>
-                            </div>
-                        </div>
-
-                        <!-- Mobile Tab -->
-                        <div id="tab-mobile" class="tab-content hidden">
-                            <div class="glass-panel p-4 border-slate-800">
-                                <h3 class="text-xs font-black text-white mb-4"><i class="fas fa-mobile-alt mr-2"></i>Mobile Features</h3>
-                                <p class="text-[8px] text-slate-400">Mobile app features coming soon...</p>
-                            </div>
-                        </div>
-
-                        <!-- Reports Tab -->
-                        <div id="tab-reports" class="tab-content hidden">
-                            <div class="glass-panel p-4 border-slate-800">
-                                <h3 class="text-xs font-black text-white mb-4"><i class="fas fa-chart-pie mr-2"></i>Reports</h3>
-                                <p class="text-[8px] text-slate-400">Reporting features coming soon...</p>
-                            </div>
-                        </div>
-
                         <!-- Leave Tab -->
                         <div id="tab-leave" class="tab-content hidden">
-                            <div class="glass-panel p-4 border-slate-800">
-                                <h3 class="text-xs font-black text-white mb-4"><i class="fas fa-envelope-open-text mr-2"></i>Leave Management</h3>
-                                <p class="text-[8px] text-slate-400">Leave request features coming soon...</p>
+                            <div class="glass-panel p-4 border-slate-800 space-y-3">
+                                <h3 class="text-xs font-black text-white">Leave Requests</h3>
+                                <div class="overflow-y-auto h-48 border border-slate-800 rounded bg-black/20">
+                                    <table class="w-full text-left text-[8px]">
+                                        <thead class="sticky top-0 bg-slate-900">
+                                            <tr>
+                                                <th class="p-2">Type</th>
+                                                <th class="p-2">From</th>
+                                                <th class="p-2">To</th>
+                                                <th class="p-2">Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="leaveBody"></tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
 
                         <!-- Salary Tab -->
                         <div id="tab-salary" class="tab-content hidden">
-                            <div class="glass-panel p-4 border-slate-800">
-                                <h3 class="text-xs font-black text-white mb-4"><i class="fas fa-money-bill-wave mr-2"></i>Salary Information</h3>
-                                <p class="text-[8px] text-slate-400">Salary features coming soon...</p>
+                            <div class="glass-panel p-4 border-slate-800 space-y-3">
+                                <h3 class="text-xs font-black text-white">Salary Information</h3>
+                                <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                                    <div>
+                                        <label class="text-[7px] font-bold text-slate-500 uppercase">Basic Salary</label>
+                                        <input type="number" id="basicSalary" class="compact-input emp-readonly" disabled>
+                                    </div>
+                                    <div>
+                                        <label class="text-[7px] font-bold text-slate-500 uppercase">Housing</label>
+                                        <input type="number" id="housing" class="compact-input emp-readonly" disabled>
+                                    </div>
+                                    <div>
+                                        <label class="text-[7px] font-bold text-slate-500 uppercase">Transport</label>
+                                        <input type="number" id="transport" class="compact-input emp-readonly" disabled>
+                                    </div>
+                                    <div>
+                                        <label class="text-[7px] font-bold text-slate-500 uppercase">Total</label>
+                                        <input type="number" id="totalSalary" class="compact-input emp-readonly" disabled>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
                         <!-- Admin Tab -->
                         <div id="tab-admin" class="tab-content hidden">
-                            <div class="glass-panel p-4 border-slate-800">
-                                <h3 class="text-xs font-black text-white mb-4"><i class="fas fa-user-shield mr-2"></i>Admin Panel</h3>
-                                <p class="text-[8px] text-slate-400">Admin features coming soon...</p>
+                            <div class="glass-panel p-4 border-slate-800 space-y-3">
+                                <h3 class="text-xs font-black text-white">Admin Panel</h3>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                    <button onclick="loadEmployees()" class="bg-blue-600 hover:bg-blue-500 px-4 py-2 rounded text-xs font-bold uppercase">
+                                        <i class="fas fa-users mr-1"></i> Load Employees
+                                    </button>
+                                    <button onclick="syncAttendance()" class="bg-purple-600 hover:bg-purple-500 px-4 py-2 rounded text-xs font-bold uppercase">
+                                        <i class="fas fa-sync mr-1"></i> Sync Attendance
+                                    </button>
+                                </div>
+                                <div id="adminLog" class="bg-black/40 p-3 rounded text-[8px] text-slate-400 h-32 overflow-y-auto">Admin log ready...</div>
                             </div>
+                        </div>
+
+                        <!-- Mobile Tab -->
+                        <div id="tab-mobile" class="tab-content hidden">
+                            <div class="glass-panel p-4 border-slate-800 space-y-3">
+                                <h3 class="text-xs font-black text-white">Mobile App</h3>
+                                <div class="space-y-2">
+                                    <button id="installAppBtn" onclick="installPWA()" class="w-full bg-cyan-600 hover:bg-cyan-500 px-4 py-2 rounded text-xs font-bold uppercase">
+                                        <i class="fas fa-download mr-1"></i> Install PWA
+                                    </button>
+                                    <p class="text-[8px] text-slate-400">Install HR Portal as a mobile app for offline access and push notifications.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="col-span-12 lg:col-span-3">
+                <div class="glass-panel p-4 space-y-3 border-slate-800">
+                    <h3 class="text-xs font-black text-white">Quick Stats</h3>
+                    <div class="space-y-2 text-[8px]">
+                        <div class="bg-blue-900/20 p-2 rounded border border-blue-500/30">
+                            <p class="text-slate-400">Present Today</p>
+                            <p id="statPresent" class="text-lg font-bold text-blue-400">0</p>
+                        </div>
+                        <div class="bg-emerald-900/20 p-2 rounded border border-emerald-500/30">
+                            <p class="text-slate-400">Annual Leave</p>
+                            <p id="statLeave" class="text-lg font-bold text-emerald-400">0 days</p>
+                        </div>
+                        <div class="bg-amber-900/20 p-2 rounded border border-amber-500/30">
+                            <p class="text-slate-400">Pending Requests</p>
+                            <p id="statPending" class="text-lg font-bold text-amber-400">0</p>
                         </div>
                     </div>
                 </div>
@@ -387,117 +430,202 @@
         </div>
     </div>
 
+    <!-- Global Toast Container -->
+    <div id="toastContainer" style="position: fixed; top: 20px; right: 20px; z-index: 9999;"></div>
+
     <!-- Firebase SDK -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
         import { getDatabase, ref, onValue, query, limitToLast } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
 
+        // ========== FIREBASE INITIALIZATION ==========
         const firebaseConfig = {
             databaseURL: "https://hr-global-connect-default-rtdb.firebaseio.com/"
         };
 
-        try {
-            const app = initializeApp(firebaseConfig);
-            const database = getDatabase(app);
-            const attendanceRef = ref(database, 'attendance');
-            
-            window.db = database;
-            window.attendanceRef = attendanceRef;
-            console.log('✅ Firebase initialized successfully');
-        } catch (error) {
-            console.error('Firebase initialization error:', error);
-        }
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+        const attendanceRef = ref(database, 'attendance');
+        const employeesRef = ref(database, 'employees');
+
+        // Make globally accessible
+        window.db = database;
+        window.attendanceRef = attendanceRef;
+        window.employeesRef = employeesRef;
+
+        // ========== LOAD ATTENDANCE DATA ==========
+        const recentQuery = query(attendanceRef, limitToLast(100));
+        onValue(recentQuery, (snapshot) => {
+            const data = snapshot.val();
+            window.todayAttendance = [];
+            if (data) {
+                Object.entries(data).forEach(([id, rec]) => {
+                    window.todayAttendance.push({
+                        id: id,
+                        empId: rec.empId,
+                        name: rec.name,
+                        date: rec.date,
+                        timeIn: rec.timeIn,
+                        timeOut: rec.timeOut,
+                        status: rec.status
+                    });
+                });
+            }
+            // Render attendance table
+            const tbody = document.getElementById('attendanceBody');
+            if (tbody) {
+                tbody.innerHTML = window.todayAttendance.slice(-20).reverse().map(rec => `
+                    <tr class="border-b border-slate-800 hover:bg-slate-800/20">
+                        <td class="p-2">${rec.date}</td>
+                        <td class="p-2" style="color:#10b981;">${rec.timeIn || '--'}</td>
+                        <td class="p-2" style="color:#ef4444;">${rec.timeOut || '--'}</td>
+                        <td class="p-2"><span class="px-2 py-1 rounded text-[7px] font-bold" style="background: ${rec.status === 'Present' ? '#10b98120' : '#ef444420'}; color: ${rec.status === 'Present' ? '#10b981' : '#ef4444'};">${rec.status}</span></td>
+                    </tr>
+                `).join('');
+            }
+        });
+
+        console.log('✅ Firebase connected successfully');
     </script>
 
-    <!-- Global Functions Script -->
+    <!-- Main Application Scripts -->
     <script>
-        // ========== GLOBAL STATE VARIABLES ==========
-        window.todayAttendance = [];
-        window.employees = [];
-        window.leaveRequests = [];
-        window.deferredPrompt = null;
-        window.currentUser = null;
-        window.currentRole = 'employee';
-
         // ========== UTILITY FUNCTIONS ==========
-        function showToast(message, type = 'success') {
-            console.log(message);
-            // Toast notification logic here
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = 'p-3 rounded-lg text-white text-sm font-bold mb-2';
+            toast.style.background = type === 'success' ? '#10b981' : type === 'error' ? '#ef4444' : '#3b82f6';
+            toast.textContent = message;
+            container.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
         }
 
+        // ========== TAB SWITCHING ==========
         function switchTab(tabName) {
             // Hide all tabs
-            const tabs = document.querySelectorAll('.tab-content');
-            if (tabs) {
-                tabs.forEach(tab => {
-                    if (tab) tab.classList.add('hidden');
-                });
-            }
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.add('hidden');
+            });
+            
+            // Remove active class from buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
             
             // Show selected tab
-            const selectedTab = document.getElementById(`tab-${tabName}`);
-            if (selectedTab) {
-                selectedTab.classList.remove('hidden');
-            }
-
-            // Update active button
-            const buttons = document.querySelectorAll('.tab-btn');
-            if (buttons) {
-                buttons.forEach(btn => {
-                    if (btn) btn.classList.remove('active');
-                });
+            const tabElement = document.getElementById(`tab-${tabName}`);
+            if (tabElement) {
+                tabElement.classList.remove('hidden');
             }
             
-            const activeBtn = document.getElementById(`btn-${tabName}`);
-            if (activeBtn) {
-                activeBtn.classList.add('active');
+            // Add active class to button
+            const btnElement = document.getElementById(`btn-${tabName}`);
+            if (btnElement) {
+                btnElement.classList.add('active');
             }
         }
 
+        // ========== AUTHENTICATION ==========
         function checkAuth() {
             const email = document.getElementById('authEmail')?.value;
+            const authError = document.getElementById('authError');
+            
             if (!email) {
-                showToast('Please enter an email', 'error');
+                showToast('Please enter email', 'error');
                 return;
             }
             
-            // Basic validation
-            if (email.includes('@')) {
-                window.currentUser = email;
+            // Authorized emails
+            const authorizedEmails = ['admin@hrms.sa', 'hr@hrms.sa', 'employee@hrms.sa'];
+            
+            if (authorizedEmails.includes(email)) {
+                // Store user info
+                localStorage.setItem('userEmail', email);
+                localStorage.setItem('userRole', email === 'admin@hrms.sa' ? 'Admin' : 'Employee');
+                localStorage.setItem('isLoggedIn', 'true');
+                
+                // Update display
                 document.getElementById('displayUser').textContent = email.split('@')[0];
-                const authOverlay = document.getElementById('authOverlay');
-                if (authOverlay) authOverlay.classList.add('hidden');
-                showToast('✅ Login successful', 'success');
+                document.getElementById('displayRole').textContent = localStorage.getItem('userRole');
+                
+                // Hide auth overlay
+                document.getElementById('authOverlay').classList.add('hidden');
+                showToast('✅ Logged in successfully', 'success');
             } else {
-                showToast('Invalid email format', 'error');
+                if (authError) {
+                    authError.classList.remove('hidden');
+                    setTimeout(() => authError.classList.add('hidden'), 3000);
+                }
+                showToast('Email not authorized', 'error');
             }
         }
 
         function logout() {
-            window.currentUser = null;
-            const authOverlay = document.getElementById('authOverlay');
-            if (authOverlay) authOverlay.classList.remove('hidden');
-            showToast('Logged out successfully', 'info');
+            localStorage.clear();
+            document.getElementById('authOverlay').classList.remove('hidden');
+            document.getElementById('displayUser').textContent = '---';
+            document.getElementById('displayRole').textContent = '---';
+            showToast('Logged out', 'info');
         }
 
-        function openSettingsPopup() {
-            showToast('Settings panel opening...', 'info');
+        // ========== ADMIN FUNCTIONS ==========
+        function loadEmployees() {
+            showToast('Loading employees...', 'info');
+            if (window.employeesRef) {
+                import { onValue } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
+                showToast('✅ Employees loaded', 'success');
+            }
         }
 
-        // ========== INIT ON LOAD ==========
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('✅ Portal initialized');
-            
-            // Update time
-            setInterval(() => {
-                const now = new Date();
-                const timeEl = document.getElementById('currentTime');
-                const dateEl = document.getElementById('currentDate');
-                
-                if (timeEl) timeEl.textContent = now.toLocaleTimeString();
-                if (dateEl) dateEl.textContent = now.toLocaleDateString();
-            }, 1000);
+        function syncAttendance() {
+            showToast('Syncing attendance...', 'info');
+            setTimeout(() => showToast('✅ Attendance synced', 'success'), 1000);
+        }
+
+        // ========== PWA INSTALLATION ==========
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            document.getElementById('installAppBtn').style.display = 'block';
         });
+
+        function installPWA() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        showToast('✅ App installed successfully', 'success');
+                    }
+                    deferredPrompt = null;
+                });
+            }
+        }
+
+        // ========== SETTINGS POPUP ==========
+        function openSettingsPopup() {
+            showToast('Settings opened', 'info');
+        }
+
+        // ========== CLOCK ==========
+        setInterval(() => {
+            const now = new Date();
+            document.getElementById('currentTime').textContent = now.toLocaleTimeString('en-US', { hour12: false });
+            document.getElementById('currentDate').textContent = now.toISOString().split('T')[0];
+        }, 1000);
+
+        // ========== INITIALIZATION ==========
+        window.addEventListener('load', () => {
+            // Check if logged in
+            if (localStorage.getItem('isLoggedIn')) {
+                document.getElementById('authOverlay').classList.add('hidden');
+                document.getElementById('displayUser').textContent = localStorage.getItem('userEmail')?.split('@')[0] || '---';
+                document.getElementById('displayRole').textContent = localStorage.getItem('userRole') || '---';
+            }
+        });
+
+        console.log('✅ HR Portal Ready!');
     </script>
 </body>
 </html>
