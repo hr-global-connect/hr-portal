@@ -17,7 +17,7 @@ jobs:
       - name: Deploy
         uses: Azure/static-web-apps-deploy@v1
         with:
-          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
+          azure_static_web_apps_api_token: ${{ c1324064ca8f3ceb21c2f2000a1d0d3a1b2358fcf65939c335f3a7cae8ff4b3707-431aa052-439d-405d-bb02-19c0e9c95a4f00f05030aba4460f }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
           skip_app_build: true
